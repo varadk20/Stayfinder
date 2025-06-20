@@ -14,11 +14,14 @@ function Navbar() {
       />
       <div className="d-flex align-items-center">
         <nav className="my-2 my-md-0 d-flex align-items-center">
-          <Link className="p-2 text-dark text-decoration-none me-5" to='/home'>
+          <Link className="p-2 text-dark text-decoration-none me-4" to='/home'>
             Home
           </Link>
-          <Link className="p-2 text-dark text-decoration-none me-5" to="#">
-            List Property
+          <Link className="p-2 text-dark text-decoration-none me-4" to="#">
+            Bookings
+          </Link>
+          <Link className="p-2 text-dark text-decoration-none me-4" to="#">
+            List-Property
           </Link>
 
           {/* Search Box */}
@@ -30,7 +33,7 @@ function Navbar() {
               aria-label="Search"
               style={{ width: "200px" }}
             />
-            <button className="btn btn-outline-primary me-5" type="submit">
+            <button className="btn me-5" type="submit" style={{backgroundColor:'#E30B5C', color:'white'}}>
               Search
             </button>
           </form>

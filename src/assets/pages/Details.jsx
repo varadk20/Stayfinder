@@ -25,18 +25,43 @@ function Details() {
       <Navbar />
       <div className="container mt-5">
         <h5 className="text-muted">Property: {details.location}</h5>
-        <div className="card" style={{ maxWidth: "500px" }}>
-          <img
-            src={`data:image/jpeg;base64,${details.image}`}
-            className="card-img-top"
-            alt="listing"
-            style={{ height: "250px" }}
-          />
-          <div className="card-body">
-            <h4 className="card-title">{details.name}</h4>
-            {/* Display proper name */}
 
-            <p className="card-text fs-5">₹{details.price}</p>
+        <div className="d-flex gap-5">
+          <div className="card" style={{ height: "400px", flex: 1 }}>
+            <img
+              src={`data:image/jpeg;base64,${details.image}`}
+              className="card-img-top"
+              alt="listing"
+              style={{ height: "280px" }}
+            />
+            <div className="card-body">
+              <h4 className="card-title">{details.name}</h4>
+              <p className="card-text fs-5">₹{details.price} one night</p>
+            </div>
+          </div>
+
+          <div
+            className="flex-grow-1"
+            style={{ marginLeft: "150px", maxWidth: "500px" }}
+          >
+            <h3>Description:</h3>
+            <ul className="list-unstyled">
+              {details.description
+                .split(".")
+                .filter((sentence) => sentence.trim().length > 0)
+                .map((sentence, index) => (
+                  <li
+                    style={{
+                      fontSize: "25px",
+                      marginBottom: "10px",
+                      lineHeight: "2",
+                    }}
+                    key={index}
+                  >
+                    • {sentence.trim()}.
+                  </li>
+                ))}
+            </ul>
           </div>
         </div>
       </div>
@@ -51,6 +76,38 @@ function Details() {
           </div>
           <div>
             <Date />
+            <p
+              className="mt-3"
+              style={{
+                fontSize: "18px",
+                color: "#555",
+                overflowWrap: "break-word",
+                maxWidth: "500px",
+              }}
+            >
+              📍 <strong>Address:</strong>
+              <br /> {details.address}
+            </p>
+
+            <button
+              type="button"
+              className="btn btn-lg btn-block mt-3"
+              onClick={() =>
+                window.open(
+                  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                    details.address
+                  )}`,
+                  "_blank"
+                )
+              }
+              style={{
+                width: "100%",
+                backgroundColor: "#E30B5C",
+                color: "white",
+              }}
+            >
+              Directions
+            </button>
           </div>
         </div>
       </div>

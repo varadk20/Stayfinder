@@ -32,11 +32,12 @@ function Home() {
                     style={{ height: "250px" }}
                   />
                   <div className="card-body">
-                    <h5 className="card-title">{detail.location}</h5>
-                    <p className="card-text">₹{detail.price}</p>
+                    <h5 className="card-title">{detail.name}</h5>
+                    <p className="card-text">₹{detail.price} one night</p>
                     <Link
                       to={`/details/${detail._id}`}
-                      className="btn btn-primary"
+                      className="btn"
+                      style={{backgroundColor:'#E30B5C', color:'white'}}
                     >
                       More Details
                     </Link>
