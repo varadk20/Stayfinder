@@ -17,10 +17,10 @@ function Navbar() {
           <Link className="p-2 text-dark text-decoration-none me-4" to='/home'>
             Home
           </Link>
-          <Link className="p-2 text-dark text-decoration-none me-4" to="#">
-            Bookings
+          <Link className="p-2 text-dark text-decoration-none me-4" to="/mylistings">
+            My-Listings
           </Link>
-          <Link className="p-2 text-dark text-decoration-none me-4" to="#">
+          <Link className="p-2 text-dark text-decoration-none me-4" to="/host">
             List-Property
           </Link>
 

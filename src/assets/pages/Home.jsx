@@ -26,7 +26,7 @@ function Home() {
               <div className="col-md-3 mb-4" key={index}>
                 <div className="card" style={{ width: "18rem" }}>
                   <img
-                    src={`data:image/jpeg;base64,${detail.image}`}
+                    src={`${detail.image}`}
                     alt="img"
                     className="card-img-top"
                     style={{ height: "250px" }}

@@ -1,11 +1,14 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const listingSchema = new mongoose.Schema({
-    image:String,
-    name: String,
-    location: String,
-    price: Number
-})
+  name: String,
+  location: String,
+  price: Number,
+  image: String, 
+  description: String,
+  address: String,
+  email: String,
+});
 
-const ListingModel = mongoose.model('details', listingSchema);
+const ListingModel = mongoose.model("details", listingSchema);
 module.exports = ListingModel;

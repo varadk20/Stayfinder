@@ -23,6 +23,7 @@ function Login() {
       setStatus(res.status);
 
       if (res.status === 200) {
+        localStorage.setItem('userEmail', email); // Save login email
         setTimeout(() => navigate('/home'), 1000); // redirect to home
       }
     } catch (err) {

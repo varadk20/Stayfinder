@@ -20,10 +20,6 @@ function Trial() {
         <div className="row">
           {
             details.map((detail, index) => {
-              // return <><div>{detail.location}</div>
-              // <div>Price: {detail.price}</div> 
-              // <div>Image: <img src={`data:image/jpeg;base64,${detail.image}`} alt="img" /></div>
-              // </>
 
               return (
                 <div className="col-md-3 mb-4" key={index}>

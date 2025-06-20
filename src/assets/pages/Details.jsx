@@ -29,7 +29,7 @@ function Details() {
         <div className="d-flex gap-5">
           <div className="card" style={{ height: "400px", flex: 1 }}>
             <img
-              src={`data:image/jpeg;base64,${details.image}`}
+              src={`${details.image}`}
               className="card-img-top"
               alt="listing"
               style={{ height: "280px" }}

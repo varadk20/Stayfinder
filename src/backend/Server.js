@@ -85,6 +85,49 @@ app.get('/getListingById/:id', async (req, res) => {
 
 
 
+// add new listing
+app.post('/addListing', async (req, res) => {
+  const { name, location, price, image, description, address, email} = req.body;
+
+  if (!name || !location || !price || !image || !description || !address || !email) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  try {
+    const newListing = new ListingModel({
+      name,
+      location,
+      price,
+      image, // base64 string
+      description,
+      address,
+      email,
+    });
+
+    await newListing.save();
+    res.status(201).json({ message: 'Listing added successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+// Backend Route to Get Listings by User
+app.get('/getUserListings/:email', async (req, res) => {
+  try {
+    const listings = await ListingModel.find({ email: req.params.email });
+    res.json(listings);
+  } catch (err) {
+    res.status(500).json({ error: 'Error fetching listings' });
+  }
+});
+
+
+
+
+
+
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
