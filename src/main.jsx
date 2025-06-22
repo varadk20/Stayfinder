@@ -10,6 +10,10 @@ import Map from './assets/components/Map.jsx'
 import Date from './assets/components/Datepicker.jsx'
 import Host from './assets/pages/Host.jsx'
 import MyListings from './assets/pages/MyListings.jsx'
+import EditListing from './assets/pages/EditListing';
+import Status from './assets/components/Status.jsx'
+
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -24,6 +28,8 @@ createRoot(document.getElementById('root')).render(
         <Route path="/date" element={<Date/>} />
         <Route path="/host" element={<Host/>} />
         <Route path="/mylistings" element={<MyListings/>} />
+        <Route path="/edit-listing/:id" element={<EditListing />} />
+        <Route path="/status" element={<Status />} />
 
       </Routes>
     </BrowserRouter>

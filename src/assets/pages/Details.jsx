@@ -8,6 +8,7 @@ import Date from "../components/Datepicker";
 function Details() {
   const { id } = useParams();
   const [details, setListing] = useState(null);
+  const [bookingInfo, setBookingInfo] = useState({ nights: 0, total: 0 });
 
   useEffect(() => {
     axios
@@ -17,6 +18,27 @@ function Details() {
       })
       .catch((err) => console.error(err));
   }, [id]);
+
+
+  const handleBooking = async () => {
+    if (bookingInfo.total === 0) {
+      alert("Please select valid check-in and check-out dates.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:3000/create-checkout-session", {
+        amount: bookingInfo.total * 100, // amount in paisa
+        name: details.name,
+      });
+
+      window.location.href = response.data.url; // redirect to Stripe payment
+    } catch (error) {
+      console.error("Payment Error:", error);
+      alert("Something went wrong with the payment.");
+    }
+  };
+  
 
   if (!details) return <div className="text-center mt-5">Loading...</div>;
 
@@ -29,14 +51,14 @@ function Details() {
         <div className="d-flex gap-5">
           <div className="card" style={{ height: "400px", flex: 1 }}>
             <img
-              src={`${details.image}`}
+              src={details.image}
               className="card-img-top"
               alt="listing"
               style={{ height: "280px" }}
             />
             <div className="card-body">
               <h4 className="card-title">{details.name}</h4>
-              <p className="card-text fs-5">₹{details.price} one night</p>
+              <p className="card-text fs-5">₹{details.price} per night</p>
             </div>
           </div>
 
@@ -66,16 +88,16 @@ function Details() {
         </div>
       </div>
 
-      {/* Map */}
-
+      {/* Map and Booking Section */}
       <div className="container my-5">
-        <h4 className="mt-5 mb-5">Location</h4>
+        <h4 className="mt-5 mb-4">Location</h4>
         <div className="d-flex gap-5">
           <div style={{ border: "1px solid red", height: "400px", flex: 1 }}>
             <Map />
           </div>
           <div>
-            <Date />
+            <Date price={details.price} onTotalChange={setBookingInfo} />
+
             <p
               className="mt-3"
               style={{
@@ -107,6 +129,19 @@ function Details() {
               }}
             >
               Directions
+            </button>
+
+            <button
+              type="button"
+              className="btn btn-lg btn-block mt-3"
+              style={{
+                width: "100%",
+                backgroundColor: "#E30B5C",
+                color: "white",
+              }}
+              onClick={handleBooking}
+            >
+              Book Now {bookingInfo.nights > 0 && `(₹${bookingInfo.total} for ${bookingInfo.nights} night${bookingInfo.nights > 1 ? "s" : ""})`}
             </button>
           </div>
         </div>

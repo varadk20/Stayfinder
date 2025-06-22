@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-function Date() {
+function Date({ price, onTotalChange }) {
   const [checkIn, setCheckIn] = useState(null);
   const [checkOut, setCheckOut] = useState(null);
 
-  const today = dayjs().startOf("day"); 
+  const today = dayjs().startOf("day");
   const yearEnd = dayjs().endOf("year");
+
+  useEffect(() => {
+    if (checkIn && checkOut) {
+      const nights = checkOut.diff(checkIn, 'day');
+      const total = nights * price;
+      onTotalChange({ nights, total, checkIn, checkOut });
+    }
+  }, [checkIn, checkOut, price, onTotalChange]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -19,9 +27,7 @@ function Date() {
           value={checkIn}
           minDate={today}
           maxDate={yearEnd}
-          onChange={(date) => {
-            setCheckIn(date);
-          }}
+          onChange={(date) => setCheckIn(date)}
         />
         <DatePicker
           label="Check-Out"
@@ -29,10 +35,11 @@ function Date() {
           minDate={checkIn ? checkIn.add(1, "day") : today}
           maxDate={yearEnd}
           onChange={(date) => setCheckOut(date)}
-          disabled={!checkIn} //disable if no check-in date
+          disabled={!checkIn}
         />
       </div>
     </LocalizationProvider>
   );
 }
+
 export default Date;

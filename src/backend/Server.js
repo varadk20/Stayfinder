@@ -124,7 +124,69 @@ app.get('/getUserListings/:email', async (req, res) => {
 });
 
 
+// Delete listing by ID
+app.delete('/deleteListing/:id', async (req, res) => {
+  try {
+    await ListingModel.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: 'Listing deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error deleting listing' });
+  }
+});
 
+
+// Update listing by ID
+app.put('/updateListing/:id', async (req, res) => {
+  const { name, location, price, image, description, address } = req.body;
+
+  try {
+    await ListingModel.findByIdAndUpdate(req.params.id, {
+      name,
+      location,
+      price,
+      image,
+      description,
+      address,
+    });
+    res.status(200).json({ message: 'Listing updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+// stripe payment gateway
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
+app.post("/create-checkout-session", async (req, res) => {
+  const { amount, name } = req.body;
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items: [
+        {
+          price_data: {
+            currency: "inr",
+            product_data: { name },
+            unit_amount: amount, // in paisa
+          },
+          quantity: 1,
+        },
+      ],
+      success_url: "http://localhost:5173/status?payment=success",
+      cancel_url: "http://localhost:5173/status?payment=cancel",
+    });
+
+    res.json({ url: session.url });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Stripe error" });
+  }
+});
 
 
 

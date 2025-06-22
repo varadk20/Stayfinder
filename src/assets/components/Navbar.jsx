@@ -24,21 +24,9 @@ function Navbar() {
             List-Property
           </Link>
 
-          {/* Search Box */}
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search listings"
-              aria-label="Search"
-              style={{ width: "200px" }}
-            />
-            <button className="btn me-5" type="submit" style={{backgroundColor:'#E30B5C', color:'white'}}>
-              Search
-            </button>
-          </form>
+         
         </nav>
-        <a className="btn btn-outline-primary" href="/">
+        <a className="btn btn-outline-danger" href="/">
           Logout
         </a>
       </div>

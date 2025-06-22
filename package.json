@@ -25,6 +25,7 @@
     "react-bootstrap": "^2.10.10",
     "react-bootstrap-date-picker": "^5.1.0",
     "react-dom": "^19.1.0",
+    "react-icons": "^5.5.0",
     "react-leaflet": "^5.0.0",
     "react-login-page": "^1.0.5",
     "react-router-dom": "^7.6.2"
