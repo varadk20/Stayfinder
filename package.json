@@ -21,6 +21,7 @@
     "bootstrap": "^5.3.6",
     "cors": "^2.8.5",
     "dayjs": "^1.11.13",
+    "express": "^5.1.0",
     "leaflet": "^1.9.4",
     "mdb-react-ui-kit": "^9.0.0",
     "mongoose": "^8.16.0",

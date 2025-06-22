@@ -177,8 +177,8 @@ app.post("/create-checkout-session", async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: "http://localhost:5173/status?payment=success",
-      cancel_url: "http://localhost:5173/status?payment=cancel",
+      success_url: `${process.env.VITE_FRONTEND_URL}/status?payment=success`,
+      cancel_url: `${process.env.VITE_FRONTEND_URL}/status?payment=cancel`,
     });
 
     res.json({ url: session.url });
@@ -190,7 +190,8 @@ app.post("/create-checkout-session", async (req, res) => {
 
 
 
-
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-})
+//Render dynamically assigns a port and exposes it through process.env.PORT
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on port ${PORT}`);
+});
