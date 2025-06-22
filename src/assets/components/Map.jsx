@@ -36,7 +36,7 @@ function Map() {
       const encodedLocation = encodeURIComponent(details.location);
       axios
         .get(
-          `http://api.openweathermap.org/geo/1.0/direct?q=${encodedLocation}&limit=1&appid=${OPENWEATHER_API_KEY}`
+          `https://api.openweathermap.org/geo/1.0/direct?q=${encodedLocation}&limit=1&appid=${OPENWEATHER_API_KEY}`
         )
         .then((res) => {
           if (res.data && res.data.length > 0) {
