@@ -11,7 +11,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/getListings")
+      .get(`${import.meta.env.VITE_BACKEND_URL}/getListings`)
       .then((res) => {
         setDetails(res.data);
         setFilteredDetails(res.data); // Set initial filtered list to all

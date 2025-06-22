@@ -12,7 +12,7 @@ function Details() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/getListingById/${id}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/getListingById/${id}`)
       .then((res) => {
         setListing(res.data);
       })
@@ -27,7 +27,7 @@ function Details() {
     }
 
     try {
-      const response = await axios.post("http://localhost:3000/create-checkout-session", {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/create-checkout-session`, {
         amount: bookingInfo.total * 100, // amount in paisa
         name: details.name,
       });

@@ -25,7 +25,7 @@ function Map() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/getListingById/${id}`)
+      .get(`${import.meta.env.VITE_BACKEND_URL}/getListingById/${id}`)
       .then((res) => {
         setDetails(res.data);
       })

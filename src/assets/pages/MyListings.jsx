@@ -13,7 +13,7 @@ function MyListings() {
     const email = localStorage.getItem('userEmail');
     if (!email) return;
 
-    axios.get(`http://localhost:3000/getUserListings/${email}`)
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/getUserListings/${email}`)
       .then(res => setListings(res.data))
       .catch(err => console.error(err));
   }, []);
@@ -23,7 +23,7 @@ function MyListings() {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:3000/deleteListing/${id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/deleteListing/${id}`);
       setListings(prev => prev.filter(listing => listing._id !== id));
     } catch (err) {
       console.error("Error deleting listing:", err);

@@ -37,7 +37,7 @@ function Host() {
     e.preventDefault();
     try {
       const email = localStorage.getItem('userEmail'); // get from login
-      await axios.post('http://localhost:3000/addListing', {...formData, email:email});
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/addListing`, {...formData, email:email});
       alert('Listing added successfully!');
       setFormData({
         name: '',

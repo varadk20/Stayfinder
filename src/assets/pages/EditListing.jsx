@@ -17,7 +17,7 @@ function EditListing() {
   });
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/getListingById/${id}`)
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/getListingById/${id}`)
       .then(res => {
         const { name, location, price, image, description, address } = res.data;
 
@@ -50,7 +50,7 @@ function EditListing() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3000/updateListing/${id}`, formData);
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/updateListing/${id}`, formData);
       alert('Listing updated successfully!');
       navigate('/mylistings'); // Redirect to MyListings page
     } catch (err) {

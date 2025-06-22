@@ -14,7 +14,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/getUser", {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/getUser`, {
         email,
         password,
       });
