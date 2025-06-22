@@ -11,6 +11,7 @@ import Host from './assets/pages/Host.jsx'
 import MyListings from './assets/pages/MyListings.jsx'
 import EditListing from './assets/pages/EditListing';
 import Status from './assets/components/Status.jsx'
+import 'leaflet/dist/leaflet.css';
 
 
 

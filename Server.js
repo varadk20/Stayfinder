@@ -177,8 +177,8 @@ app.post("/create-checkout-session", async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: `${process.env.VITE_FRONTEND_URL}/status?payment=success`,
-      cancel_url: `${process.env.VITE_FRONTEND_URL}/status?payment=cancel`,
+      success_url: `${process.env.FRONTEND_URL}/status?payment=success`,
+      cancel_url: `${process.env.FRONTEND_URL}/status?payment=cancel`,
     });
 
     res.json({ url: session.url });
