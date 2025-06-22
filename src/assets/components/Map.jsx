@@ -14,7 +14,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-const OPENWEATHER_API_KEY = 'YOUR_OPENWEATHERMAP_API_KEY';
 
 function Map() {
   const { id } = useParams();
