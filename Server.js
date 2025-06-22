@@ -1,10 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const ListingModel = require('./Models/Listings');
+const ListingModel = require('./src/backend/Models/Listings');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
-const userModel = require('./Models/Users')
+const userModel = require('./src/backend/Models/Users')
 
 const app = express();
 app.use(cors());
