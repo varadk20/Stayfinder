@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './assets/pages/Login.jsx';
 import Signup from './assets/pages/Signup.jsx';
 import Home from './assets/pages/Home.jsx';
-import Trial from './assets/pages/Trial.jsx'
 import Details from './assets/pages/Details.jsx'
 import Map from './assets/components/Map.jsx'
 import Date from './assets/components/Datepicker.jsx'
@@ -22,7 +21,6 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/trial" element={<Trial />} />
         <Route path="/map" element={<Map />} />
         <Route path="/details/:id" element={<Details />} />
         <Route path="/date" element={<Date/>} />
