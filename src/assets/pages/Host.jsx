@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Navbar from "../components/Navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import imageCompression from 'browser-image-compression';
 
 function Host() {
   const [formData, setFormData] = useState({
@@ -13,20 +14,33 @@ function Host() {
     address: '',
   });
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (file.size > 1024 * 1024) {
-      alert('Image size must be less than 1MB');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData({ ...formData, image: reader.result });
+    const options = {
+      maxSizeMB: 0.1,               // Compress to ~100KB
+      maxWidthOrHeight: 600,
+      useWebWorker: true,
     };
-    reader.readAsDataURL(file);
+
+    try {
+      const compressedFile = await imageCompression(file, options);
+      console.log("Compressed image size:", (compressedFile.size / 1024).toFixed(2), "KB");
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, image: reader.result });
+      };
+      reader.onerror = () => {
+        console.error("Error reading image file:", reader.error);
+        alert("Failed to read image file.");
+      };
+      reader.readAsDataURL(compressedFile);
+    } catch (error) {
+      console.error("Image compression error:", error);
+      alert("Image compression failed.");
+    }
   };
 
   const handleChange = (e) => {
@@ -36,8 +50,8 @@ function Host() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const email = localStorage.getItem('userEmail'); // get from login
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/addListing`, {...formData, email:email});
+      const email = localStorage.getItem('userEmail');
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/addListing`, { ...formData, email });
       alert('Listing added successfully!');
       setFormData({
         name: '',
@@ -48,7 +62,7 @@ function Host() {
         address: '',
       });
     } catch (err) {
-      console.error(err);
+      console.error("Submission error:", err);
       alert('Error adding listing');
     }
   };
