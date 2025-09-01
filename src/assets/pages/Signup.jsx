@@ -13,6 +13,7 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
     try {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/getUser`, {
         email,

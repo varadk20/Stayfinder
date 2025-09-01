@@ -3,7 +3,9 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+
 function App() {
+  console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
   const [count, setCount] = useState(0)
 
   return (
