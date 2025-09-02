@@ -3,7 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './assets/pages/Login.jsx';
 import Signup from './assets/pages/Signup.jsx';
-import Home from './assets/pages/Home.jsx';
+//import Home from './assets/pages/Home.jsx';
+import HostDashboard from "./assets/pages/HostDashboard.jsx";
+import GuestDashboard from "./assets/pages/GuestDashboard.jsx";
 import Details from './assets/pages/Details.jsx'
 import Map from './assets/components/Map.jsx'
 import Date from './assets/components/Datepicker.jsx'
@@ -21,7 +23,8 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/hostDashboard" element={<HostDashboard />} />
+        <Route path="/guestDashboard" element={<GuestDashboard />} />
         <Route path="/map" element={<Map />} />
         <Route path="/details/:id" element={<Details />} />
         <Route path="/date" element={<Date/>} />

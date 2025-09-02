@@ -9,6 +9,8 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [status, setColor] = useState(null); //state to track color
+  const [role, setRole] = useState("");
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,6 +20,7 @@ function Signup() {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/getUser`, {
         email,
         password,
+        role
       });
       setMessage(res.data.message);
       setColor(res.status);
@@ -78,6 +81,21 @@ function Signup() {
               required
             />
           </div>
+
+          <div className="form-group mb-4">
+            <label className="mb-3">Role</label>
+              <select
+              className="form-control"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              required
+              >
+              <option value="">Select Role</option>
+              <option value="guest">Guest</option>
+              <option value="host">Host</option>
+              </select>
+          </div>
+
 
           <button type="submit" className="btn btn-primary w-100 mb-4">
             Submit

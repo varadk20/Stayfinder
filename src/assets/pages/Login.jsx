@@ -23,8 +23,18 @@ function Login() {
       setStatus(res.status);
 
       if (res.status === 200) {
-        localStorage.setItem('userEmail', email); // Save login email
-        setTimeout(() => navigate('/home'), 1000); // redirect to home
+        // Save login info
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userRole', res.data.role);
+
+        // Redirect based on role
+        setTimeout(() => {
+          if (res.data.role === "host") {
+            navigate('/hostDashboard');
+          } else if (res.data.role === "guest") {
+            navigate('/guestDashboard');
+          }
+        }, 1000);
       }
     } catch (err) {
       if (err.response && err.response.status === 401) {
@@ -68,7 +78,7 @@ function Login() {
               required
             />
           </div>
-
+    
           <button type="submit" className="btn btn-primary w-100 mb-4">
             Submit
           </button>

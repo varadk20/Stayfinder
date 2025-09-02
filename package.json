@@ -27,6 +27,7 @@
     "leaflet": "^1.9.4",
     "mdb-react-ui-kit": "^9.0.0",
     "mongoose": "^8.16.0",
+    "nodemailer": "^7.0.6",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^18.3.1",
