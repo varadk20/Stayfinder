@@ -14,6 +14,8 @@ import MyListings from './assets/pages/MyListings.jsx'
 import EditListing from './assets/pages/EditListing';
 import Status from './assets/components/Status.jsx'
 import 'leaflet/dist/leaflet.css';
+import Analytics from "./assets/pages/Analytics";
+import Contact from "./assets/pages/Contact";
 
 
 
@@ -32,6 +34,8 @@ createRoot(document.getElementById('root')).render(
         <Route path="/mylistings" element={<MyListings/>} />
         <Route path="/edit-listing/:id" element={<EditListing />} />
         <Route path="/status" element={<Status />} />
+        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/contact" element={<Contact />} />
 
       </Routes>
     </BrowserRouter>

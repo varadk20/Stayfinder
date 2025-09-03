@@ -5,8 +5,7 @@ const ListingModel = require('./src/backend/Models/Listings');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const userModel = require('./src/backend/Models/Users');
-const crypto = require("crypto");
-const nodemailer = require("nodemailer");
+
 
 const app = express();
 app.use(cors());

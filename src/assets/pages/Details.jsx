@@ -44,7 +44,7 @@ function Details() {
 
   return (
     <>
-      <Navbar />
+      <Navbar role="host" />
       <div className="container mt-5">
         <h5 className="text-muted">Property: {details.location}</h5>
 
