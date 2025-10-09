@@ -13,14 +13,14 @@ function HostDashboard() {
             className="btn btn-lg" 
             style={{ backgroundColor: "#E30B5C", color: "white" }}
           >
-            ➕ Add New Listing
+            Add New Listing
           </Link>
           <Link 
             to="/mylistings" 
             className="btn btn-lg" 
             style={{ backgroundColor: "#E30B5C", color: "white" }}
           >
-            📂 My Listings
+            My Listings
           </Link>
         </div>
       </div>

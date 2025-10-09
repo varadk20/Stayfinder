@@ -35,7 +35,7 @@
     "react-leaflet": "^4.2.1",
     "react-login-page": "^1.0.5",
     "react-router-dom": "^7.6.2",
-    "stripe": "^18.2.1"
+    "stripe": "^18.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

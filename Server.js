@@ -5,6 +5,8 @@ const ListingModel = require('./src/backend/Models/Listings');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const userModel = require('./src/backend/Models/Users');
+const BookingModel = require('./src/backend/Models/Booking');
+
 
 
 const app = express();
@@ -16,8 +18,8 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log("✅ Connected to MongoDB Atlas"))
-.catch(err => console.error("❌ MongoDB connection error:", err));
+.then(() => console.log("Connected to MongoDB Atlas"))
+.catch(err => console.error("MongoDB connection error:", err));
 
 // ---------------- Routes ---------------- //
 
@@ -42,6 +44,7 @@ app.post('/getUser', async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new userModel({ email, password: hashedPassword, role });
+    console.log("Saving new user:", { email, role });
     await newUser.save();
 
     res.status(201).json({ message: 'User registered successfully' });
@@ -154,6 +157,36 @@ app.put('/updateListing/:id', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+
+
+// create booking (no payment, just confirm)
+app.post("/book", async (req, res) => {
+  const { listingId, listingName, guestEmail, checkIn, checkOut, nights, totalPrice } = req.body;
+
+  if (!listingId || !guestEmail || !checkIn || !checkOut) {
+    return res.status(400).json({ message: "Missing booking details" });
+  }
+
+  try {
+    const booking = new BookingModel({
+      listingId,
+      listingName,
+      guestEmail,
+      checkIn,
+      checkOut,
+      nights,
+      totalPrice
+    });
+
+    await booking.save();
+    res.status(201).json({ message: "Booking confirmed!", booking });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 
 // ---------------- Start Server ---------------- //
 const PORT = process.env.PORT || 3000;
