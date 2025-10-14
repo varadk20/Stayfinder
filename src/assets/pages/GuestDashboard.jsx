@@ -1,87 +1,206 @@
+// src/pages/GuestDashboard.jsx
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
+import StarDisplay from "../components/StarDisplay";
 
 function GuestDashboard() {
   const [details, setDetails] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredDetails, setFilteredDetails] = useState([]);
+
+  // Filter states
+  const [locationFilter, setLocationFilter] = useState("Any"); // Any, Mumbai, Delhi, Bangalore
+  const [minRating, setMinRating] = useState(0); // 0..5
+  const [priceSort, setPriceSort] = useState("none"); // none, low-high, high-low
 
   useEffect(() => {
     axios
       .get(`${import.meta.env.VITE_BACKEND_URL}/getListings`)
       .then((res) => {
-        setDetails(res.data);
-        setFilteredDetails(res.data); // set initial filtered list
+        setDetails(res.data || []);
       })
       .catch((err) => console.error(err));
   }, []);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const query = searchQuery.toLowerCase();
-    const filtered = details.filter((item) =>
-      item.name.toLowerCase().includes(query) ||
-      item.location.toLowerCase().includes(query) ||
-      item.description.toLowerCase().includes(query) ||
-      String(item.price).toLowerCase().includes(query) ||
-      item.address?.toLowerCase().includes(query)
-    );
-    setFilteredDetails(filtered);
-  };
+  // Derived visible listings using useMemo for perf
+  const visibleListings = useMemo(() => {
+    const q = (searchQuery || "").toLowerCase().trim();
+
+    // 1) Search filter
+    let list = details.filter((item) => {
+      if (!item) return false;
+      const name = (item.name || "").toLowerCase();
+      const loc = (item.location || "").toLowerCase();
+      const desc = (item.description || "").toLowerCase();
+      const price = String(item.price || "").toLowerCase();
+      const address = (item.address || "").toLowerCase();
+
+      return (
+        name.includes(q) ||
+        loc.includes(q) ||
+        desc.includes(q) ||
+        price.includes(q) ||
+        address.includes(q)
+      );
+    });
+
+    // 2) Location filter
+    if (locationFilter && locationFilter !== "Any") {
+      const target = locationFilter.toLowerCase();
+      list = list.filter((item) => (item.location || "").toLowerCase().includes(target));
+    }
+
+    // 3) Rating filter
+    list = list.filter((item) => {
+      const avg = Number(item.averageRating || 0);
+      return avg >= Number(minRating || 0);
+    });
+
+    // 4) Sorting by price
+    if (priceSort === "low-high") {
+      list.sort((a, b) => (Number(a.price || 0) - Number(b.price || 0)));
+    } else if (priceSort === "high-low") {
+      list.sort((a, b) => (Number(b.price || 0) - Number(a.price || 0)));
+    }
+
+    return list;
+  }, [details, searchQuery, locationFilter, minRating, priceSort]);
 
   return (
     <>
       <Navbar role="guest" />
       <div className="container mt-4">
-        {/* Search Bar */}
-        <form className="d-flex justify-content-center mb-5" onSubmit={handleSearch}>
-          <input
-            type="text"
-            className="form-control me-2"
-            placeholder="Search listings"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ maxWidth: "300px" }}
-          />
-          <button
-            className="btn"
-            type="submit"
-            style={{ backgroundColor: "#E30B5C", color: "white" }}
-          >
-            Search
-          </button>
-        </form>
+        {/* Search + Filters Row */}
+        <div className="mb-4">
+          <form className="d-flex justify-content-center" onSubmit={(e) => e.preventDefault()}>
+            <input
+              type="text"
+              className="form-control me-2"
+              placeholder="Search listings"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ maxWidth: "360px" }}
+            />
+            <button
+              className="btn"
+              type="button"
+              onClick={() => setSearchQuery("")}
+              style={{ backgroundColor: "#E30B5C", color: "white", marginLeft: 8 }}
+            >
+              Clear
+            </button>
+          </form>
+
+          {/* Filters row */}
+          <div className="d-flex justify-content-center gap-3 mt-3 flex-wrap">
+            {/* Location filter */}
+            <div>
+              <label className="form-label mb-1">Location</label>
+              <select
+                className="form-select"
+                value={locationFilter}
+                onChange={(e) => setLocationFilter(e.target.value)}
+                style={{ minWidth: 160 }}
+              >
+                <option value="Any">Any</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Bangalore">Bangalore</option>
+              </select>
+            </div>
+
+            {/* Price sort */}
+            <div>
+              <label className="form-label mb-1">Price</label>
+              <select
+                className="form-select"
+                value={priceSort}
+                onChange={(e) => setPriceSort(e.target.value)}
+                style={{ minWidth: 160 }}
+              >
+                <option value="none">Default</option>
+                <option value="low-high">Low → High</option>
+                <option value="high-low">High → Low</option>
+              </select>
+            </div>
+
+            {/* Rating filter */}
+            <div>
+              <label className="form-label mb-1">Minimum Rating</label>
+              <select
+                className="form-select"
+                value={minRating}
+                onChange={(e) => setMinRating(Number(e.target.value))}
+                style={{ minWidth: 160 }}
+              >
+                <option value={0}>Any</option>
+                <option value={1}>1+</option>
+                <option value={2}>2+</option>
+                <option value={3}>3+</option>
+                <option value={4}>4+</option>
+                <option value={5}>5</option>
+              </select>
+            </div>
+
+            {/* Reset filters */}
+            <div className="d-flex align-items-end">
+              <button
+                className="btn btn-outline-secondary"
+                onClick={() => {
+                  setSearchQuery("");
+                  setLocationFilter("Any");
+                  setMinRating(0);
+                  setPriceSort("none");
+                }}
+                type="button"
+              >
+                Reset Filters
+              </button>
+            </div>
+          </div>
+        </div>
 
         {/* Listings */}
         <div className="row">
-          {filteredDetails.map((detail, index) => (
-            <div className="col-md-3 mb-4" key={index}>
-              <div className="card" style={{ width: "18rem" }}>
-                <img
-                  src={detail.image}
-                  alt="img"
-                  className="card-img-top"
-                  style={{ height: "250px", objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{detail.name}</h5>
-                  <p className="card-text">₹{detail.price} one night</p>
-                  <Link
-                    to={`/details/${detail._id}`}
-                    className="btn"
-                    style={{ backgroundColor: "#E30B5C", color: "white" }}
-                  >
-                    More Details
-                  </Link>
+          {visibleListings.length > 0 ? (
+            visibleListings.map((detail) => (
+              <div className="col-md-3 mb-4" key={detail._id}>
+                <div className="card" style={{ width: "18rem" }}>
+                  <img
+                    src={detail.image}
+                    alt={detail.name || "listing image"}
+                    className="card-img-top"
+                    style={{ height: "250px", objectFit: "cover" }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{detail.name}</h5>
+
+                    {/* Average rating display */}
+                    <div style={{ marginBottom: 8 }}>
+                      <StarDisplay value={detail.averageRating || 0} size={14} showNumber={true} />
+                      <small className="text-muted d-block">
+                        {detail.reviews?.length
+                          ? `(${detail.reviews.length} review${detail.reviews.length > 1 ? "s" : ""})`
+                          : "No reviews yet"}
+                      </small>
+                    </div>
+
+                    <p className="card-text">₹{detail.price} one night</p>
+                    <Link
+                      to={`/details/${detail._id}`}
+                      className="btn"
+                      style={{ backgroundColor: "#E30B5C", color: "white" }}
+                    >
+                      More Details
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-          {filteredDetails.length === 0 && (
-            <p className="text-center text-muted">No listings found.</p>
+            ))
+          ) : (
+            <p className="text-center text-muted">No listings match your filters.</p>
           )}
         </div>
       </div>
@@ -90,3 +209,4 @@ function GuestDashboard() {
 }
 
 export default GuestDashboard;
+//Ezekiel filter
