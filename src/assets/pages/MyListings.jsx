@@ -36,7 +36,7 @@ function MyListings() {
 
   return (
     <>
-      <Navbar />
+      <Navbar role="host" />
       <div className="container mt-5">
         <h3 className="text-center mb-5">My Listings</h3>
         <div className="row">

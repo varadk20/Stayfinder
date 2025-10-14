@@ -69,7 +69,7 @@ function Host() {
 
   return (
     <>
-      <Navbar />
+      <Navbar role="host" />
       <div className="container mt-5">
         <div className="card shadow p-4">
           <h2 className="mb-4 text-center">Add New Listing</h2>

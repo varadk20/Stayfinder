@@ -21,30 +21,43 @@ function Details() {
 
 
   const handleBooking = async () => {
-    if (bookingInfo.total === 0) {
-      alert("Please select valid check-in and check-out dates.");
-      return;
-    }
+  if (bookingInfo.total === 0) {
+    alert("Please select valid check-in and check-out dates.");
+    return;
+  }
 
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/create-checkout-session`, {
-        amount: bookingInfo.total * 100, // amount in paisa
-        name: details.name,
-      });
+  if (!window.confirm("Do you want to confirm this booking?")) return;
 
-      window.location.href = response.data.url; // redirect to Stripe payment
-    } catch (error) {
-      console.error("Payment Error:", error);
-      alert("Something went wrong with the payment.");
-    }
-  };
+  try {
+  // 🔹 Retrieve user from localStorage
+  const guestEmail = localStorage.getItem("userEmail") || "guest@example.com";
+
+  const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/book`, {
+    listingId: id,
+    listingName: details.name,
+    guestEmail, 
+    checkIn: bookingInfo.checkIn,
+    checkOut: bookingInfo.checkOut,
+    nights: bookingInfo.nights,
+    totalPrice: bookingInfo.total,
+  });
+
+
+    alert("Booking confirmed!");
+    console.log("Booking saved:", response.data);
+  } catch (error) {
+    console.error("Booking Error:", error);
+    alert("Something went wrong while saving the booking.");
+  }
+};
+
   
 
   if (!details) return <div className="text-center mt-5">Loading...</div>;
 
   return (
     <>
-      <Navbar />
+      <Navbar role="guest" />
       <div className="container mt-5">
         <h5 className="text-muted">Property: {details.location}</h5>
 
