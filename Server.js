@@ -8,6 +8,7 @@ require('dotenv').config();
 const ListingModel = require('./src/backend/Models/Listings');
 const userModel = require('./src/backend/Models/Users');
 const BookingModel = require('./src/backend/Models/Booking');
+const Query = require('./src/backend/Models/Query');
 
 // -------------------- App Setup --------------------
 const app = express();
@@ -250,6 +251,34 @@ app.delete('/deleteReview/:listingId/:reviewId', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+
+// Contact (Query) form route
+app.post('/contact', async (req, res) => {
+  try {
+    const { from, to, subject, description } = req.body;
+
+    const newQuery = new Query({ from, to, subject, description });
+    await newQuery.save();
+
+    res.status(200).json({ message: "Query submitted successfully" });
+  } catch (error) {
+    console.error("Error submitting query:", error);
+    res.status(500).json({ error: "Failed to submit query" });
+  }
+});
+
+
+// // Get all queries (for admin dashboard, optional)
+// app.get('/getQueries', async (req, res) => {
+//   try {
+//     const queries = await QueryModel.find();
+//     res.status(200).json(queries);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: 'Failed to fetch queries' });
+//   }
+// });
 
 // -------------------- START SERVER --------------------
 const PORT = process.env.PORT || 3000;
