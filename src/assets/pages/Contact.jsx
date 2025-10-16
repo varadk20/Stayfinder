@@ -1,6 +1,7 @@
 // src/assets/pages/Contact.jsx
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
+import image1 from "../images/image1.png"; // ✅ your image
 
 function Contact() {
   const [form, setForm] = useState({
@@ -10,7 +11,6 @@ function Contact() {
     description: "",
   });
 
-  // ✅ Fetch logged-in user's email when component loads
   useEffect(() => {
     const savedEmail = localStorage.getItem("userEmail");
     if (savedEmail) {
@@ -33,12 +33,10 @@ function Contact() {
       });
 
       const data = await response.json();
-      console.log("Server response:", data);
-
       if (response.ok) {
         alert("✅ Query submitted successfully!");
         setForm({
-          from: form.from, // keep same email
+          from: form.from,
           to: "admin@gmail.com",
           subject: "",
           description: "",
@@ -54,86 +52,153 @@ function Contact() {
 
   return (
     <>
-      {/* Guest Navbar */}
       <Navbar role="guest" />
 
-      <div className="container mt-5">
-        <div className="card shadow p-4">
-          <h2 className="text-center mb-4">Contact the Admin</h2>
+      {/* 🌈 Center background */}
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "2rem",
+        }}
+      >
+        {/* 🪟 Contact card with background image */}
+        <div
+          className="card shadow-lg p-4"
+          style={{
+            maxWidth: "700px",
+            width: "100%",
+            borderRadius: "15px",
+            backgroundImage: `url(${image1})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            color: "#fff",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          {/* translucent overlay for readability */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 0,
+              borderRadius: "15px",
+            }}
+          ></div>
 
-          <p className="fs-5 text-muted text-center">
-            If you have any queries regarding listings or bookings, feel free to reach out.
-          </p>
+          {/* actual content */}
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <h2 className="text-center mb-3 fw-bold" style={{ color: "#fff" }}>
+              Contact the Admin
+            </h2>
 
-          {/* Contact Form */}
-          <form onSubmit={handleSubmit} className="mt-4">
-            <div className="mb-3">
-              <label className="form-label">From (Your Email)</label>
-              <input
-                type="email"
-                name="from"
-                value={form.from}
-                className="form-control"
-                readOnly
-              />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label">To (Admin Email)</label>
-              <input
-                type="email"
-                name="to"
-                value={form.to}
-                className="form-control"
-                readOnly
-              />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label">Subject</label>
-              <input
-                type="text"
-                name="subject"
-                value={form.subject}
-                onChange={handleChange}
-                className="form-control"
-                placeholder="Enter subject"
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label">Description</label>
-              <textarea
-                name="description"
-                value={form.description}
-                onChange={handleChange}
-                className="form-control"
-                rows="4"
-                placeholder="Write your message here..."
-                required
-              ></textarea>
-            </div>
-
-            <div className="text-center">
-              <button type="submit" className="btn btn-primary px-4">
-                Submit Query
-              </button>
-            </div>
-          </form>
-
-          {/* Admin Info */}
-          <div className="mt-5 border-top pt-4">
-            <h4>About the Admin</h4>
-            <p>
-              Our admin team is here to assist you with your listings or booking-related queries.
-              Please expect a reply within 24 hours.
+            <p className="fs-5 text-center" style={{ color: "#f1f1f1" }}>
+              If you have any queries regarding listings or bookings, feel free
+              to reach out.
             </p>
 
-            <h5>Email</h5>
-            <p>
-              📧 <a href="mailto:admin@gmail.com">admin@gmail.com</a>
-            </p>
+            <form onSubmit={handleSubmit} className="mt-4">
+              <div className="mb-3">
+                <label className="form-label fw-semibold text-light">
+                  From (Your Email)
+                </label>
+                <input
+                  type="email"
+                  name="from"
+                  value={form.from}
+                  className="form-control"
+                  readOnly
+                  style={{ backgroundColor: "rgba(255,255,255,0.8)" }}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label fw-semibold text-light">
+                  To (Admin Email)
+                </label>
+                <input
+                  type="email"
+                  name="to"
+                  value={form.to}
+                  className="form-control"
+                  readOnly
+                  style={{ backgroundColor: "rgba(255,255,255,0.8)" }}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label fw-semibold text-light">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  name="subject"
+                  value={form.subject}
+                  onChange={handleChange}
+                  className="form-control"
+                  placeholder="Enter subject"
+                  required
+                  style={{ backgroundColor: "rgba(255,255,255,0.8)" }}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label fw-semibold text-light">
+                  Description
+                </label>
+                <textarea
+                  name="description"
+                  value={form.description}
+                  onChange={handleChange}
+                  className="form-control"
+                  rows="4"
+                  placeholder="Write your message here..."
+                  required
+                  style={{ backgroundColor: "rgba(255,255,255,0.8)" }}
+                ></textarea>
+              </div>
+
+              <div className="text-center">
+                <button
+                  type="submit"
+                  className="btn btn-light px-5 py-2"
+                  style={{
+                    borderRadius: "25px",
+                    fontWeight: "600",
+                    color: "#333",
+                  }}
+                >
+                  Submit Query
+                </button>
+              </div>
+            </form>
+
+            <div className="mt-5 border-top pt-4 text-light">
+              <h4 className="fw-semibold">About the Admin</h4>
+              <p>
+                Our admin team is here to assist you with your listings or
+                booking-related queries. Please expect a reply within 24 hours.
+              </p>
+
+              <h5>Email</h5>
+              <p>
+                📧{" "}
+                <a
+                  href="mailto:admin@gmail.com"
+                  style={{ color: "#fff", textDecoration: "underline" }}
+                >
+                  admin@gmail.com
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -142,46 +207,3 @@ function Contact() {
 }
 
 export default Contact;
-
-
-
-
-// src/pages/Contact.jsx
-// import React from "react";
-// import Navbar from "../components/Navbar";
-
-// function Contact() {
-//   return (
-//     <>
-//       {/* Guest Navbar */}
-//       <Navbar role="guest" />
-
-//       <div className="container mt-5">
-//         <div className="card shadow p-4">
-//           <h2 className="text-center mb-4">Contact the Host</h2>
-          
-//           <p className="fs-5 text-muted text-center">
-//             If you have any queries regarding listings or bookings, feel free to reach out to the host.
-//           </p>
-
-//           <div className="mt-4">
-//             <h4>Host Description</h4>
-//             <p>
-//               Hello! I am <strong>Sanika</strong>, a dedicated host passionate about 
-//               providing comfortable and affordable stays for guests. 
-//               I ensure all properties are well-maintained and 
-//               guest-friendly.
-//             </p>
-
-//             <h4>Email</h4>
-//             <p>
-//               📧 <a href="mailto:host@example.com">sanika@gmail.com</a>
-//             </p>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default Contact;
