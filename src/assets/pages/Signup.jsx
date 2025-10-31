@@ -9,8 +9,9 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setColor] = useState(null); // state to track status code
+  const [status, setColor] = useState(null);
   const [role, setRole] = useState("");
+  const [phone, setPhone] = useState("");
 
   const navigate = useNavigate();
 
@@ -22,12 +23,13 @@ function Signup() {
         email,
         password,
         role,
+        phone, // ✅ kept your phone field
       });
       setMessage(res.data.message);
       setColor(res.status);
 
       if (res.status === 201) {
-        setTimeout(() => navigate("/"), 1000); // reroute after 1 second
+        setTimeout(() => navigate("/"), 1000);
       }
     } catch (err) {
       if (err.response && err.response.status === 409) {
@@ -42,7 +44,6 @@ function Signup() {
 
   return (
     <>
-      {/* Full-page background */}
       <div
         style={{
           minHeight: "100vh",
@@ -57,7 +58,6 @@ function Signup() {
           padding: "2rem",
         }}
       >
-        {/* dark overlay for contrast */}
         <div
           style={{
             position: "absolute",
@@ -67,7 +67,6 @@ function Signup() {
           }}
         />
 
-        {/* signup card */}
         <div
           className="card p-4 shadow"
           style={{
@@ -89,6 +88,7 @@ function Signup() {
 
           <h4 className="card-title text-center mb-4">Signup</h4>
 
+          {/* ✅ form starts here */}
           <form onSubmit={handleSubmit}>
             <div className="form-group mb-3">
               <label htmlFor="signupEmail" className="mb-2">
@@ -120,6 +120,24 @@ function Signup() {
               />
             </div>
 
+            {/* ✅ Added your phone number field */}
+            <div className="form-group mb-3">
+              <label htmlFor="signupPhone" className="mb-2">
+                Phone Number
+              </label>
+              <input
+                id="signupPhone"
+                type="tel"
+                className="form-control"
+                placeholder="Enter phone number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+                pattern="[0-9]{10}"
+                title="Please enter a 10-digit phone number"
+              />
+            </div>
+
             <div className="form-group mb-4">
               <label className="mb-2">Role</label>
               <select
@@ -138,7 +156,7 @@ function Signup() {
               type="submit"
               className="btn w-100 mb-3"
               style={{
-                backgroundColor: "#8B4513", // brown theme button
+                backgroundColor: "#8B4513",
                 color: "white",
                 fontWeight: 600,
                 borderRadius: 8,
