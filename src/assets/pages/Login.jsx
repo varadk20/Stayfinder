@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../images/logo1.png';
+import image4 from '../images/image4.png'; // background image
 import axios from 'axios';
 
 function Login() {
@@ -48,54 +49,109 @@ function Login() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="card p-4 shadow w-25">
-        <img src={logo} width={200} height={200} alt="Logo" style={{ alignSelf: 'center' }} />
-        <h4 className="card-title text-center mb-4">Login</h4>
-        <form onSubmit={handleLogin}>
-          <div className="form-group mb-3">
-            <label htmlFor="loginEmail" className='mb-3'>Email address</label>
-            <input
-              type="email"
-              className="form-control"
-              id="loginEmail"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+    <>
+      {/* Full-page background */}
+      <div
+        style={{
+          minHeight: '100vh',
+          backgroundImage: `url(${image4})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          padding: '2rem',
+        }}
+      >
+        {/* dark overlay for contrast */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.45)',
+            zIndex: 0,
+          }}
+        />
+
+        {/* login card */}
+        <div
+          className="card p-4 shadow"
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            width: '100%',
+            maxWidth: '420px',
+            background: 'rgba(255,255,255,0.94)',
+            borderRadius: '12px',
+          }}
+        >
+          <div className="d-flex justify-content-center mb-3">
+            <img
+              src={logo}
+              alt="Logo"
+              style={{ maxWidth: 140, height: 'auto', objectFit: 'contain' }}
             />
           </div>
 
-          <div className="form-group mb-4">
-            <label htmlFor="loginPassword" className='mb-3'>Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="loginPassword"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-    
-          <button type="submit" className="btn btn-primary w-100 mb-4">
-            Submit
-          </button>
+          <h4 className="card-title text-center mb-4">Login</h4>
 
-          <p className="text-center" style={{ color: status === 200 ? 'green' : 'red' }}>
-            {message}
-          </p>
+          <form onSubmit={handleLogin}>
+            <div className="form-group mb-3">
+              <label htmlFor="loginEmail" className="mb-2">Email address</label>
+              <input
+                type="email"
+                className="form-control"
+                id="loginEmail"
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
 
-          <div className="form-group form-check mb-4 text-center">
-            <label className="form-check-label" htmlFor="exampleCheck1">
-              Don't have an account?
-              <Link to='/signup' style={{ color: 'blue' }}> Register</Link>
-            </label>
-          </div>
-        </form>
+            <div className="form-group mb-4">
+              <label htmlFor="loginPassword" className="mb-2">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="loginPassword"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="btn w-100 mb-3"
+              style={{
+                backgroundColor: '#8B4513', // brown theme button
+                color: 'white',
+                fontWeight: 600,
+                borderRadius: 8,
+                padding: '10px 0',
+              }}
+            >
+              Submit
+            </button>
+
+            <p className="text-center mb-0" style={{ color: status === 200 ? 'green' : 'red' }}>
+              {message}
+            </p>
+
+            <div className="form-group form-check mt-3 text-center">
+              <span>Don't have an account? </span>
+              <Link to="/signup" style={{ color: '#E30B5C', fontWeight: 600 }}>
+                Register
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
