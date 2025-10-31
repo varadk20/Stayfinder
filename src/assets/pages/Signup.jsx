@@ -10,6 +10,8 @@ function Signup() {
   const [message, setMessage] = useState("");
   const [status, setColor] = useState(null); //state to track color
   const [role, setRole] = useState("");
+  const [phone, setPhone] = useState("");
+
 
   const navigate = useNavigate();
 
@@ -20,7 +22,8 @@ function Signup() {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/getUser`, {
         email,
         password,
-        role
+        role,
+        phone
       });
       setMessage(res.data.message);
       setColor(res.status);
@@ -81,6 +84,24 @@ function Signup() {
               required
             />
           </div>
+
+
+        <div className="form-group mb-4">
+  <label htmlFor="exampleInputPhone" className="mb-3">
+    Phone Number
+  </label>
+  <input
+    type="tel"
+    className="form-control"
+    id="exampleInputPhone"
+    placeholder="Enter phone number"
+    value={phone}
+    onChange={(e) => setPhone(e.target.value)}
+    required
+    pattern="[0-9]{10}" // optional: ensures 10 digits
+    title="Please enter a 10-digit phone number"
+  />
+</div>
 
           <div className="form-group mb-4">
             <label className="mb-3">Role</label>

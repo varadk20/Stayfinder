@@ -54,13 +54,13 @@ app.get('/getListings', async (req, res) => {
 
 // ✅ Register new user
 app.post('/getUser', async (req, res) => {
-  const { email, password, role } = req.body;
+  const { email, password, role ,phone} = req.body;
   try {
     const existingUser = await userModel.findOne({ email });
     if (existingUser) return res.status(409).json({ message: 'Email already in use' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new userModel({ email, password: hashedPassword, role });
+    const newUser = new userModel({ email, password: hashedPassword,phone, role });
     await newUser.save();
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
